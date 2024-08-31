@@ -4,22 +4,40 @@ export function initializeMask(maskId, containerId) {
 	const svgMask = document.getElementById(maskId);
 	const container = document.querySelector(`.${containerId}`);
 
+	// Eventos para mouse
 	svgMask.addEventListener("mousedown", startDragging);
 	document.addEventListener("mousemove", moveMask);
 	document.addEventListener("mouseup", stopDragging);
 
+	// Eventos para touch
+	svgMask.addEventListener("touchstart", startDragging);
+	document.addEventListener("touchmove", moveMask);
+	document.addEventListener("touchend", stopDragging);
+
 	function startDragging(e) {
 		isDragging = true;
-		startX = e.clientX - svgMask.offsetLeft;
-		startY = e.clientY - svgMask.offsetTop;
+		if (e.type === "mousedown") {
+			startX = e.clientX - svgMask.offsetLeft;
+			startY = e.clientY - svgMask.offsetTop;
+		} else if (e.type === "touchstart") {
+			startX = e.touches[0].clientX - svgMask.offsetLeft;
+			startY = e.touches[0].clientY - svgMask.offsetTop;
+		}
 		svgMask.style.cursor = "grabbing";
+		e.preventDefault(); // Prevenir comportamiento predeterminado
 	}
 
 	function moveMask(e) {
 		if (!isDragging) return;
 		e.preventDefault();
-		let x = e.clientX - startX;
-		let y = e.clientY - startY;
+		let x, y;
+		if (e.type === "mousemove") {
+			x = e.clientX - startX;
+			y = e.clientY - startY;
+		} else if (e.type === "touchmove") {
+			x = e.touches[0].clientX - startX;
+			y = e.touches[0].clientY - startY;
+		}
 
 		const containerRect = container.getBoundingClientRect();
 		const maskRect = svgMask.getBoundingClientRect();
