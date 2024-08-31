@@ -28,8 +28,8 @@ export function interlaceImages() {
 
 	// Preparar los datos para la API
 	const data = {
-		user_name: "iPhone 11",
-		phone_model: phoneModel,
+		user_name: clientName,
+		phone_model: "iPhone 11",
 		image_1_base64: image1Base64,
 		image_2_base64: image2Base64,
 		send_to_telegram: sendToTelegram,
