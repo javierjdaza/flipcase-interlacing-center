@@ -1,5 +1,15 @@
 // Función para manejar el clic en el botón de interlace
 export function interlaceImages() {
+	// Eliminar el botón de descarga y los mensajes si existen
+	const downloadButton = document.getElementById("download-button");
+	if (downloadButton) {
+		downloadButton.remove();
+	}
+	const messageElement = document.getElementById("resultMessage");
+	if (messageElement) {
+		messageElement.remove();
+	}
+
 	// Verificar si hay imágenes en los contenedores
 	const croppedImage1 = document.querySelector("#croppedImageContainer1 img");
 	const croppedImage2 = document.querySelector("#croppedImageContainer2 img");
@@ -55,12 +65,16 @@ export function interlaceImages() {
 			if (response.ok) {
 				return response.json();
 			}
-			throw new Error(`Network error: ${response.status} ${response.statusText}`);
+			throw new Error(`Error de red: ${response.status} ${response.statusText}`);
 		})
 		.then((data) => {
-			console.log("Success:", data);
-			if (data.status === "ok") {
-				showMessage("Success: Your Tiff is ready", true);
+			console.log("Éxito:", data);
+			// Ocultar el spinner y mostrar el botón en todos los casos
+			document.getElementById("loadingSpinner").style.display = "none";
+			document.getElementById("interlaceButton").style.display = "block";
+
+			if (data.status === "ok" && data.image_interlaced_base64) {
+				showMessage("Éxito: Tu Tiff está listo", true);
 
 				// Crear imagen a partir del base64
 				const img = new Image();
@@ -68,9 +82,8 @@ export function interlaceImages() {
 
 				// Crear botón de descarga
 				const downloadButton = document.createElement("button");
-				downloadButton.textContent = "Download .tiff";
+				downloadButton.textContent = "Descargar .tiff";
 				downloadButton.id = "download-button";
-
 				downloadButton.style.marginLeft = "10px";
 				downloadButton.onclick = () => {
 					const link = document.createElement("a");
@@ -84,17 +97,13 @@ export function interlaceImages() {
 				// Añadir botón junto al botón de entrelazar
 				const interlaceButton = document.getElementById("interlaceButton");
 				interlaceButton.parentNode.insertBefore(downloadButton, interlaceButton.nextSibling);
-
-				// Ocultar el spinner y mostrar el botón
-				document.getElementById("loadingSpinner").style.display = "none";
-				document.getElementById("interlaceButton").style.display = "block";
 			} else {
-				showMessage("Error: Problem processing images", false);
+				showMessage("Error: Problema al procesar las imágenes", false);
 			}
 		})
 		.catch((error) => {
-			console.error("Detailed error:", error);
-			showMessage("Error: " + error.message, false);
+			console.error("Error detallado:", error);
+			showMessage(`Error: ${error.message}`, false);
 
 			// Ocultar el spinner y mostrar el botón en caso de error
 			document.getElementById("loadingSpinner").style.display = "none";
@@ -113,8 +122,39 @@ function getBase64Image(img) {
 }
 
 function showMessage(message, isSuccess) {
-	const messageElement = document.getElementById("resultMessage");
+	let messageElement = document.getElementById("resultMessage");
+	if (!messageElement) {
+		messageElement = document.createElement("div");
+		messageElement.id = "resultMessage";
+
+		// Insertar el mensaje después del botón de descarga
+		const downloadButton = document.getElementById("download-button");
+		if (downloadButton) {
+			downloadButton.parentNode.insertBefore(messageElement, downloadButton.nextSibling);
+		} else {
+			// Si no hay botón de descarga, insertar después del botón de entrelazar
+			const interlaceButton = document.getElementById("interlaceButton");
+			interlaceButton.parentNode.insertBefore(messageElement, interlaceButton.nextSibling);
+		}
+	}
 	messageElement.textContent = message;
 	messageElement.className = isSuccess ? "success-message" : "error-message";
 	messageElement.style.display = "block";
+	messageElement.style.margin = "10px 0";
+	messageElement.style.padding = "10px";
+	messageElement.style.borderRadius = "5px";
+	messageElement.style.color = "white";
+	messageElement.style.fontWeight = "bold";
+	messageElement.style.textAlign = "center";
+
+	if (isSuccess) {
+		messageElement.style.backgroundColor = "#A2CA71";
+	} else {
+		messageElement.style.backgroundColor = "#B43F3F";
+	}
+
+	// Eliminar el mensaje después de 3 segundos
+	setTimeout(() => {
+		messageElement.remove();
+	}, 6000);
 }
