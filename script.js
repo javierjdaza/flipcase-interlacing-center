@@ -17,12 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		// Initialize with the first value
 		updateMasks();
 	} else {
-		console.error("El elemento dropdown no se encontró en el DOM");
+		console.error("The dropdown element was not found in the DOM");
 	}
 	try {
 		uploadImage();
 	} catch (error) {
-		console.error("Error al ejecutar uploadImage:", error);
+		console.error("Error executing uploadImage:", error);
 	}
 	initializeMask("svgMask1", "image-1");
 	initializeMask("svgMask2", "image-2");

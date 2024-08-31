@@ -5,19 +5,22 @@ export function interlaceImages() {
 	const croppedImage2 = document.querySelector("#croppedImageContainer2 img");
 
 	if (!croppedImage1 || !croppedImage2) {
-		alert("Por favor, asegúrate de que ambas imágenes estén recortadas antes de continuar.");
+		alert("Please make sure both images are cropped before continuing.");
 		return;
 	}
 
 	// Obtener el nombre del cliente
 	const clientName = document.getElementById("clientTextInput").value.trim();
 	if (!clientName) {
-		alert("Por favor, rellena el campo de texto del cliente.");
+		alert("Please fill in the client text field.");
 		return;
 	}
 
 	// Obtener el modelo de teléfono seleccionado
-	const phoneModel = document.getElementById("dropDown").value;
+	const phoneModel = document
+		.getElementById("dropDown")
+		.value.replace(/^.*[\\\/]/, "")
+		.replace(".svg", "");
 
 	// Convertir imágenes a base64
 	const image1Base64 = getBase64Image(croppedImage1);
@@ -29,7 +32,7 @@ export function interlaceImages() {
 	// Preparar los datos para la API
 	const data = {
 		user_name: clientName,
-		phone_model: "iPhone 11",
+		phone_model: phoneModel,
 		image_1_base64: image1Base64,
 		image_2_base64: image2Base64,
 		send_to_telegram: sendToTelegram,
@@ -37,39 +40,27 @@ export function interlaceImages() {
 
 	console.log(data);
 
-	// Modificar la llamada a la API
+	// Mostrar el spinner y ocultar el botón
+	document.getElementById("loadingSpinner").style.display = "block";
+	document.getElementById("interlaceButton").style.display = "none";
+
 	fetch("https://flipcase-api.onrender.com/interlace/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(data),
-		redirect: "manual", // Cambiar a manual para manejar redirecciones nosotros mismos
 	})
 		.then((response) => {
 			if (response.ok) {
 				return response.json();
 			}
-			if (response.status === 307) {
-				// Si hay una redirección, intentamos seguirla manualmente
-				const newUrl = response.headers.get("Location");
-				console.log("Redirigiendo a:", newUrl);
-				return fetch(newUrl, {
-					method: "POST",
-					mode: "cors",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(data),
-				});
-			}
-			throw new Error(`Error de red: ${response.status} ${response.statusText}`);
+			throw new Error(`Network error: ${response.status} ${response.statusText}`);
 		})
-		.then((response) => response.json())
 		.then((data) => {
-			console.log("Éxito:", data);
+			console.log("Success:", data);
 			if (data.status === "ok") {
-				showMessage("Éxito: Imágenes enviadas correctamente", true);
+				showMessage("Success: Your Tiff is ready", true);
 
 				// Crear imagen a partir del base64
 				const img = new Image();
@@ -77,12 +68,14 @@ export function interlaceImages() {
 
 				// Crear botón de descarga
 				const downloadButton = document.createElement("button");
-				downloadButton.textContent = "Descargar imagen";
+				downloadButton.textContent = "Download .tiff";
+				downloadButton.id = "download-button";
+
 				downloadButton.style.marginLeft = "10px";
 				downloadButton.onclick = () => {
 					const link = document.createElement("a");
 					link.href = img.src;
-					link.download = "imagen_entrelazada.tiff";
+					link.download = `${clientName}_${phoneModel}.tiff`;
 					document.body.appendChild(link);
 					link.click();
 					document.body.removeChild(link);
@@ -91,13 +84,21 @@ export function interlaceImages() {
 				// Añadir botón junto al botón de entrelazar
 				const interlaceButton = document.getElementById("interlaceButton");
 				interlaceButton.parentNode.insertBefore(downloadButton, interlaceButton.nextSibling);
+
+				// Ocultar el spinner y mostrar el botón
+				document.getElementById("loadingSpinner").style.display = "none";
+				document.getElementById("interlaceButton").style.display = "block";
 			} else {
-				showMessage("Error: Hubo un problema al procesar las imágenes", false);
+				showMessage("Error: Problem processing images", false);
 			}
 		})
 		.catch((error) => {
-			console.error("Error detallado:", error);
+			console.error("Detailed error:", error);
 			showMessage("Error: " + error.message, false);
+
+			// Ocultar el spinner y mostrar el botón en caso de error
+			document.getElementById("loadingSpinner").style.display = "none";
+			document.getElementById("interlaceButton").style.display = "block";
 		});
 }
 
@@ -111,9 +112,9 @@ function getBase64Image(img) {
 	return canvas.toDataURL("image/png").split(",")[1];
 }
 
-function showMessage(mensaje, esExito) {
-	const mensajeElement = document.getElementById("mensajeResultado");
-	mensajeElement.textContent = mensaje;
-	mensajeElement.className = esExito ? "mensaje-exito" : "mensaje-error";
-	mensajeElement.style.display = "block";
+function showMessage(message, isSuccess) {
+	const messageElement = document.getElementById("resultMessage");
+	messageElement.textContent = message;
+	messageElement.className = isSuccess ? "success-message" : "error-message";
+	messageElement.style.display = "block";
 }
