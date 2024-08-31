@@ -28,7 +28,7 @@ export function interlaceImages() {
 
 	// Preparar los datos para la API
 	const data = {
-		user_name: clientName,
+		user_name: "iPhone 11",
 		phone_model: phoneModel,
 		image_1_base64: image1Base64,
 		image_2_base64: image2Base64,
@@ -40,7 +40,6 @@ export function interlaceImages() {
 	// Modificar la llamada a la API
 	fetch("https://flipcase-api.onrender.com/interlace/", {
 		method: "POST",
-		mode: "cors",
 		headers: {
 			"Content-Type": "application/json",
 		},
