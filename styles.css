@@ -1,0 +1,324 @@
+body {
+	font-family: "Montserrat", sans-serif;
+	width: 100%;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 55px 0 0 0;
+	& h1 {
+		font-size: 45px;
+		font-weight: 800;
+		margin: 0;
+	}
+	& h2 {
+		font-size: 20px;
+		font-weight: 400;
+		margin: 0;
+		letter-spacing: 2.1px;
+	}
+}
+
+.container {
+	position: relative;
+	margin-top: 20px;
+}
+
+.image-loader {
+	margin: 50px 80px;
+}
+
+#imageContainer2 {
+	position: relative;
+	width: 50%;
+}
+
+.card-image-1,
+.card-image-2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.card-image-1 .crop-button,
+.card-image-2 .crop-button {
+	margin-top: 20px;
+	border-radius: 10px;
+	border: 0;
+	padding: 8px 15px;
+	cursor: pointer;
+	font-size: 16px;
+	box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+	background-color: #414141;
+	color: #fff;
+}
+
+.interlacing-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+	margin-bottom: 50px;
+	& #interlaceButton {
+		margin-top: 20px;
+		border-radius: 10px;
+		border: 0;
+		padding: 8px 15px;
+		cursor: pointer;
+		font-size: 16px;
+		box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+		background-color: #ef5a6f;
+		color: #fff;
+	}
+}
+
+#mensajeResultado {
+	margin-top: 10px;
+	padding: 10px;
+	border-radius: 5px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.mensaje-exito {
+	background-color: #d4edda;
+	color: #155724;
+}
+
+.mensaje-error {
+	background-color: #f8d7da;
+	color: #721c24;
+}
+
+/* Ajuste para mover el botón cuando aparecen las imágenes recortadas */
+.cropped-image-container:not(:empty) + .interlacing {
+	margin-top: 50px;
+}
+
+.cropped-image-container {
+	margin-top: 20px;
+	width: 500px;
+	height: 500px;
+}
+
+.cropped-image-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+#imageContainer {
+	display: grid;
+	text-align: center;
+	grid-template-columns: repeat(2, minmax(0%, 1fr));
+	justify-items: center;
+	margin-bottom: 20px;
+	gap: 150px;
+
+	& .image-1,
+	.image-2 {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 800px;
+	}
+
+	& .button-upload {
+		margin-top: 20px;
+		border-radius: 10px;
+		border: 0;
+		padding: 8px 15px;
+		cursor: pointer;
+		font-size: 16px;
+		background-color: #fff;
+		color: #414141;
+		box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+	}
+
+	& .button-upload:hover {
+		background-color: #414141;
+		color: #fff;
+	}
+}
+.button-group {
+	display: flex;
+	gap: 50px;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.background-image-1,
+.background-image-2 {
+	width: 100%;
+	height: 100%;
+	opacity: 0.6;
+	object-fit: cover;
+	object-position: center;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#backgroundImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.mask {
+	position: absolute;
+	max-width: none; /* Eliminar max-width */
+	height: 100%; /* Asegurar que la altura sea 100% */
+	cursor: grab;
+	opacity: 0.5;
+	pointer-events: all;
+	top: 0;
+	left: 0;
+}
+
+#croppedImageContainer {
+	margin-top: 20px;
+}
+
+#croppedImageContainer img {
+	width: 10%;
+}
+
+h1 {
+	text-align: center;
+}
+
+.information {
+	margin-top: 50px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	/* background-color: #f2f2f2; */
+
+	& .client-info {
+		margin: 0 auto;
+		text-align: left;
+	}
+	.phoneSelection {
+		margin: 0 auto;
+		text-align: left;
+	}
+
+	.telegram-option {
+		display: flex;
+		align-items: end;
+		margin: 0 auto;
+		gap: 6px;
+		width: 330px;
+		text-align: left;
+
+		& #sendToTelegram {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	.label {
+		font-size: 14px;
+		margin: 7px 0;
+		font-weight: 600;
+	}
+	& #clientTextInput {
+		width: 300px;
+		height: 40px;
+		font-size: 16px;
+		color: #414141;
+		display: block;
+		margin: 0 auto;
+		padding: 0 10px 0 10px;
+		border-radius: 10px;
+		border: 1px solid #414141;
+	}
+
+	& #dropDown {
+		width: 330px;
+		height: 40px;
+		font-size: 14px;
+		color: #414141;
+		display: block;
+		margin: 0 auto;
+		padding: 0 10px 0 10px;
+		border-radius: 10px;
+		border: 1px solid #414141;
+		font-family: "Montserrat", sans-serif;
+	}
+}
+
+.container-all {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	.container-all {
+		width: 95%;
+		margin: 0 auto;
+	}
+
+	#imageContainer {
+		display: flex;
+		flex-direction: column;
+		gap: 50px;
+	}
+
+	#imageContainer .image-1,
+	#imageContainer .image-2 {
+		height: 400px;
+	}
+
+	.cropped-image-container {
+		width: 100%;
+		height: auto;
+	}
+
+	.information {
+		margin-top: 30px;
+		gap: 20px;
+	}
+
+	.information .client-info,
+	.information .phoneSelection,
+	.information .telegram-option {
+		width: 100%;
+		max-width: 330px;
+	}
+
+	.information .information #dropDown {
+		width: 100%;
+	}
+
+	.image-loader {
+		margin: 30px 20px;
+	}
+
+	#imageContainer2 {
+		width: 100%;
+	}
+
+	.button-group {
+		display: flex;
+		gap: 20px;
+		justify-content: space-between;
+		margin-top: 10px;
+	}
+	.header {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin: 15px 0 45px 0;
+	}
+}
