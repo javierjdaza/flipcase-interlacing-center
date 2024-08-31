@@ -1,6 +1,7 @@
 body {
 	font-family: "Montserrat", sans-serif;
 	width: 100%;
+	overflow-x: hidden; /* Añade esta línea */
 }
 
 .header {
@@ -263,9 +264,16 @@ h1 {
 }
 
 @media (max-width: 768px) {
+	html,
+	body {
+		max-width: 100%;
+		overflow-x: hidden;
+	}
+
 	.container-all {
 		width: 95%;
 		margin: 0 auto;
+		overflow-x: hidden; /* Añade esta línea */
 	}
 
 	#imageContainer {
