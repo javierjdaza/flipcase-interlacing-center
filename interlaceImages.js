@@ -74,7 +74,7 @@ export function interlaceImages() {
 			document.getElementById("interlaceButton").style.display = "block";
 
 			if (data.status === "ok" && data.image_interlaced_base64) {
-				showMessage("Éxito: Tu Tiff está listo", true);
+				showMessage("Success: Your Tiff is ready", true);
 
 				// Crear imagen a partir del base64
 				const img = new Image();
@@ -82,7 +82,7 @@ export function interlaceImages() {
 
 				// Crear botón de descarga
 				const downloadButton = document.createElement("button");
-				downloadButton.textContent = "Descargar .tiff";
+				downloadButton.textContent = "Download .tiff";
 				downloadButton.id = "download-button";
 				downloadButton.style.marginLeft = "10px";
 				downloadButton.onclick = () => {
@@ -98,7 +98,7 @@ export function interlaceImages() {
 				const interlaceButton = document.getElementById("interlaceButton");
 				interlaceButton.parentNode.insertBefore(downloadButton, interlaceButton.nextSibling);
 			} else {
-				showMessage("Error: Problema al procesar las imágenes", false);
+				showMessage("error: Problem processing images", false);
 			}
 		})
 		.catch((error) => {
