@@ -3,6 +3,8 @@ import { cropImage } from "./cropper.js";
 import { uploadImage } from "./uploadImage.js";
 import { fillDropdown } from "./dropdownFiller.js";
 
+// Importar la función interlaceImages desde el nuevo archivo
+import { interlaceImages } from "./interlaceImages.js";
 document.addEventListener("DOMContentLoaded", () => {
 	const $dropDown = document.getElementById("dropDown");
 
@@ -17,7 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	} else {
 		console.error("El elemento dropdown no se encontró en el DOM");
 	}
-	uploadImage();
+	try {
+		uploadImage();
+	} catch (error) {
+		console.error("Error al ejecutar uploadImage:", error);
+	}
 	initializeMask("svgMask1", "image-1");
 	initializeMask("svgMask2", "image-2");
 
@@ -28,10 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	cropImage("cropButton2", "background-image-2", "croppedImageContainer2", "svgMask2");
 
 	const $interlaceButton = document.getElementById("interlaceButton");
+
+	// Agregar el event listener al botón de interlace
+	document.getElementById("interlaceButton").addEventListener("click", interlaceImages);
 });
-
-// Importar la función interlaceImages desde el nuevo archivo
-import { interlaceImages } from "./interlaceImages.js";
-
-// Agregar el event listener al botón de interlace
-document.getElementById("interlaceButton").addEventListener("click", interlaceImages);

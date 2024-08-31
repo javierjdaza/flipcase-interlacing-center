@@ -38,7 +38,7 @@ export function interlaceImages() {
 	console.log(data);
 
 	// Modificar la llamada a la API
-	fetch("https://flipcase-api.onrender.com/interlace", {
+	fetch("https://flipcase-api.onrender.com/interlace/", {
 		method: "POST",
 		mode: "cors",
 		headers: {
