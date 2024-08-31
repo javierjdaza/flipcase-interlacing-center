@@ -9,10 +9,11 @@ export function initializeMask(maskId, containerId) {
 	document.addEventListener("mousemove", moveMask);
 	document.addEventListener("mouseup", stopDragging);
 
-	// Eventos para touch
-	svgMask.addEventListener("touchstart", startDragging);
-	document.addEventListener("touchmove", moveMask);
+	// Modificar los event listeners para touch
+	svgMask.addEventListener("touchstart", startDragging, { passive: false });
+	document.addEventListener("touchmove", moveMask, { passive: false });
 	document.addEventListener("touchend", stopDragging);
+	document.addEventListener("touchcancel", stopDragging);
 
 	function startDragging(e) {
 		isDragging = true;
