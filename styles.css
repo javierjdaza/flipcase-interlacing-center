@@ -175,8 +175,8 @@ body {
 
 .mask {
 	position: absolute;
-	max-width: none; /* Eliminar max-width */
-	height: 100%; /* Asegurar que la altura sea 100% */
+	max-width: none;
+	height: 100%;
 	cursor: grab;
 	opacity: 0.5;
 	pointer-events: all;
@@ -268,12 +268,16 @@ h1 {
 	body {
 		max-width: 100%;
 		overflow-x: hidden;
+		margin: 0px;
+	}
+
+	.client-info {
+		margin: 0 0;
+		text-align: left;
 	}
 
 	.container-all {
-		width: 95%;
-		margin: 0 auto;
-		overflow-x: hidden; /* Añade esta línea */
+		width: 100%;
 	}
 
 	#imageContainer {
@@ -284,7 +288,7 @@ h1 {
 
 	#imageContainer .image-1,
 	#imageContainer .image-2 {
-		height: 400px;
+		height: 800px;
 	}
 
 	.cropped-image-container {
