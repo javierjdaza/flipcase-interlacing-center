@@ -54,8 +54,8 @@ export function interlaceImages() {
 	document.getElementById("loadingSpinner").style.display = "block";
 	document.getElementById("interlaceButton").style.display = "none";
 
-	// fetch("https://flipcase-api.onrender.com/interlace/", {
-	fetch("http://127.0.0.1:8000/interlace/", {
+	fetch("https://flipcase-api.onrender.com/interlace/", {
+		// fetch("http://127.0.0.1:8000/interlace/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
