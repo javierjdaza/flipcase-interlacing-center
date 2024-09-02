@@ -54,7 +54,8 @@ export function interlaceImages() {
 	document.getElementById("loadingSpinner").style.display = "block";
 	document.getElementById("interlaceButton").style.display = "none";
 
-	fetch("https://flipcase-api.onrender.com/interlace/", {
+	// fetch("https://flipcase-api.onrender.com/interlace/", {
+	fetch("http://127.0.0.1:8000/interlace/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -114,10 +115,12 @@ export function interlaceImages() {
 // Función auxiliar para convertir imagen a base64
 function getBase64Image(img) {
 	const canvas = document.createElement("canvas");
-	canvas.width = img.width;
-	canvas.height = img.height;
+	canvas.width = img.naturalWidth;
+	canvas.height = img.naturalHeight;
+
 	const ctx = canvas.getContext("2d");
-	ctx.drawImage(img, 0, 0);
+	ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
 	return canvas.toDataURL("image/png").split(",")[1];
 }
 
